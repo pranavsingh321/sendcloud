@@ -23,7 +23,7 @@ This is an RSS feed manager example.
 
 ## Installation
 
-### Host installation
+### Host
   pip3 install poetry
 
   poetry install
@@ -31,6 +31,8 @@ This is an RSS feed manager example.
   poetry shell
   
   pre-commit install
+
+  cp .env.example .env
 
 ### Services setup
   docker-compose up
