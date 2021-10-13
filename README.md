@@ -27,6 +27,10 @@ This is an RSS feed manager example.
   pip3 install poetry
 
   poetry install
+  
+  poetry shell
+  
+  pre-commit install
 
 ### Services setup
   docker-compose up
@@ -36,9 +40,14 @@ This is an RSS feed manager example.
 * docker-compose
 
 ## Usage
-  poetry shell
-
-  pre-commit install
+   DRF based api can be accessed at http://0.0.0.0:8001/feed. All the endpoints require login which can be done easily in DRF browsable api.
+   
+   There are 5 endpoints:
+* /feed/feed/
+* /feed/feed-item/
+* /feed/feed/{id}/subscribe/
+* /feed/feed/{id}/unsubscribe/
+* /feed/feed/{id}/force-update/
 
 ## Test
    pytest
