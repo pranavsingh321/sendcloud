@@ -6,7 +6,7 @@ This is an RSS feed manager example.
 * Follow multiple feeds
 * Unfollow feed
 * List feed items belonging to one feed as per user subscription
-* Mark feed item as read upon fetch
+* Mark feed item as read upon detail fetch
 * Filter feed items per feed or across feeds
 * Sort feed items based on update/create.
 * Force feed update
