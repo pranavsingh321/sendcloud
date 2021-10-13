@@ -25,6 +25,7 @@ This is an RSS feed manager example.
 
 ### Host installation
   pip3 install poetry
+
   poetry install
 
 ### Services setup
@@ -36,6 +37,7 @@ This is an RSS feed manager example.
 
 ## Usage
   poetry shell
+
   pre-commit install
 
 ## Test
