@@ -1,0 +1,8 @@
+*.pyc
+*.swp
+/logs
+django_celery_beat
+celerybeat.pid
+.coverage
+.python-version
+.env

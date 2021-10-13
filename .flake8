@@ -1,0 +1,6 @@
+[flake8]
+exclude = .git,*migrations*
+max-line-length = 80
+ignore = E203, E501, W503
+per-file-ignores =
+    holmapi/settings/*:F405

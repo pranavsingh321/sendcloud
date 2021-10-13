@@ -1,0 +1,50 @@
+version: "3"
+services:
+  sendcloud:
+    image: sendcloud:latest
+    build:
+     context: .
+    ports:
+      - "8001:8001"
+    # command: web-dev
+    command: tail -f /dev/null
+    depends_on:
+      - mariadb
+      - redis
+      - celery
+      - celery-beat
+    volumes:
+      - .:/app:z
+  celery:
+    image: sendcloud:latest
+    environment:
+      - DJANGO_SETTINGS_MODULE=sendcloud.settings
+    command: celery_worker --logfile=./logs/celery.py
+    volumes:
+    - .:/app
+  celery-beat:
+    image: sendcloud:latest
+    environment:
+      - DJANGO_SETTINGS_MODULE=sendcloud.settings
+    command: celery_beats
+    volumes:
+      - .:/app
+  mariadb:
+    image: mariadb:10.4.15
+    env_file:
+      - ./.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-datavolume:/var/lib/mariadb
+    command:
+      - mysqld
+      - "--character-set-server=utf8"
+      - "--collation-server=utf8_general_ci"
+  redis:
+    image: redis:3.0.7-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  mysql-datavolume:
