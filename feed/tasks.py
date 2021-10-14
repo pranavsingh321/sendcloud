@@ -1,6 +1,6 @@
 import logging
 
-from celery import Task, shared_task  # TODO remove
+from celery import Task, shared_task
 from django.contrib.auth.models import User
 from rest_framework.exceptions import APIException
 
@@ -30,37 +30,34 @@ class BaseTaskRetry(Task):
 
     def on_failure(self, exc, task_id, args, kwargs, einfo):
         try:
-            feed = Feed.objects.get(pk=kwargs["feed_id"])
+            feed = Feed.objects.get(pk=args[0])
         except Feed.DoesNotExist:
             return
 
-        logger.info(f" Failed to fetch feed: {kwargs['feed_id']}")
+        logger.info(f" Failed to fetch feed: {args[0]}")
 
-        for user in feed.subscribers.all():
-            send_mail_user.apply((user.id, feed.name))
+        for subscriber in feed.subscribers.all():
+            send_mail_user.apply(args=(subscriber.user.id, feed.name))
+
+        return super().on_failure(exc, task_id, args, kwargs, einfo)
 
 
-@shared_task(bind=True, base=BaseTaskRetry)
-def fetch_feed_task(feed_id):
+@shared_task(base=BaseTaskRetry)
+def fetch_feed_sub_task(feed_id):
     items = None
     try:
         feed = Feed.objects.get(pk=feed_id)
     except Feed.DoesNotExist:
+        logger.warning(f"Feed, id: {feed.id} not found")
         return
 
     logger.info(f"Fetching items for feed, id: {feed.id}, name: {feed.name}")
 
-    try:
-        items = fetch_feed(feed.url)
-    except APIException as ae:
-        logger.error(
-            f"Failed to fetch items for feed, id: {feed.id}, name: {feed.name} due to exception: {ae}"
-        )
-        return
+    items = fetch_feed(feed.url)
 
     for item in items:
         FeedItem.objects.get_or_create(
-            title=item.title, url=item.url, description=item.description
+            feed=feed, title=item.title, description=item.description
         )
 
     logger.info(
@@ -75,4 +72,4 @@ def fetch_feeds_task():
     """
 
     for feed in Feed.objects.all():
-        fetch_feed_task.apply_async((feed.id,))
+        fetch_feed_sub_task.apply_async(args=(feed.id,))

@@ -77,7 +77,7 @@ def test_feed_item_detail_for_user(
         "feed": feed_item.feed.id,
         "title": feed_item.title,
         "description": feed_item.description,
-        "has_read": False,
+        "has_read": True,
     }
 
 
