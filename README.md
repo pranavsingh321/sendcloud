@@ -59,6 +59,8 @@ This is an RSS feed manager example.
   Feed item is considered as read if it detail view is called on that feed item.
 
 ## Test
+   docker-compose exec  sendcloud bash
+
    pytest
 
 ## Miscellaneous
