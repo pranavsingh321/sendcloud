@@ -35,6 +35,7 @@ This is an RSS feed manager example.
   cp .env.example .env
 
 ### Services setup
+  docker-compose build sendcloud
   docker-compose up
 
 ### Requirements
