@@ -7,6 +7,9 @@ case $action in
   web-dev)
     exec python manage.py runserver 0.0.0.0:8001 --settings=sendcloud.settings
     ;;
+  migrate-load)
+    exec python manage.py migrate --noinput && python manage.py loadata db.json
+    ;;
   web-prod)
     exec uwsgi /app/uwsgi.ini "$@"
     ;;

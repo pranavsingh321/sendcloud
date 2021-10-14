@@ -16,9 +16,9 @@ services:
       - .:/app:z
   migration:
     image: sendcloud:latest
-    command: python manage.py migrate --noinput
+    command: migrate-load
     volumes:
-      - .:/code
+      - .:/app
     depends_on:
       - mariadb
   celery:
