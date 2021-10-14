@@ -14,6 +14,13 @@ services:
       - celery-beat
     volumes:
       - .:/app:z
+  migration:
+    image: sendcloud:latest
+    command: python manage.py migrate --noinput
+    volumes:
+      - .:/code
+    depends_on:
+      - mariadb
   celery:
     image: sendcloud:latest
     environment:
@@ -28,6 +35,8 @@ services:
     command: celery_beats
     volumes:
       - .:/app
+    depends_on:
+      - migration
   mariadb:
     image: mariadb:10.4.15
     env_file:

@@ -64,7 +64,7 @@ This is an RSS feed manager example.
 ## Miscellaneous
 Bootstrap/initial data can be loaded with following command inside the sendcloud:
 
-python manage.py loaddata < db.json
+python manage.py loaddata  db.json
 
 
 ## Improvements
