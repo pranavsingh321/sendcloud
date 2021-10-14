@@ -22,14 +22,14 @@ This is an RSS feed manager example.
 * celery-beat
 
 ## Installation
-
+   The setup mounts current directory in container to allow real-time changes.
 ### Host
   pip3 install poetry
 
   poetry install
-  
+
   poetry shell
-  
+
   pre-commit install
 
   cp .env.example .env
@@ -42,8 +42,8 @@ This is an RSS feed manager example.
 * docker-compose
 
 ## Usage
-   DRF based api can be accessed at http://0.0.0.0:8001/feed. All the endpoints require login which can be done easily in DRF browsable api.
-   
+   DRF based api can be accessed at http://0.0.0.0:8001/feed/. All the endpoints require login which can be done easily in DRF browsable api.
+
    There are 5 endpoints:
 * /feed/feed/
 * /feed/feed-item/
@@ -51,9 +51,16 @@ This is an RSS feed manager example.
 * /feed/feed/{id}/unsubscribe/
 * /feed/feed/{id}/force-update/
 
+  There is support of filtering feed-items based on feed name e.g. "/feed/feed-item/?feed=dummy&format=json" and feed items are sorted based on creation date.
+
+  Fetching of feed items is done through celery task and mail will be sent in case of failure.
+
+  Feed item is considered as read if it detail view is called on that feed item.
+
 ## Test
    pytest
 
+## Miscellaneous
 Bootstrap/initial data can be loaded with following command inside the sendcloud:
 
 python manage.py loaddata < db.json
